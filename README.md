@@ -11,11 +11,12 @@ I decided to port nnls to Rust because:
 
 ## Advantages
 
-- It has been used several millions of times and it will be used billions of times quite soon. I work with 3D images and each image I see contains around 1 million voxels. For a specific algorithm, I just call `nnls` 2 times for each voxel.
-- There's no `unsafe`
+- It has been used several millions of times and it will be used billions of times quite soon. I work with 3D images and each image I see contains around 1 million voxels. For a specific algorithm, I need to call `nnls` 2 times for each voxel. Several of those images has been tested and compared with the original Fortran version.
+- There's no `unsafe` and it is forbidden to use any.
 
 ## Problems
 
+- This is not idiomatic Rust. I tried cleaning and enhancing the code but this is not always possible.
 - I use [ndarray](https://github.com/rust-ndarray/ndarray). You might prefer something else. I do not plan to change this but you're welcome to discuss it.
 - I currently receive reference to owned data instead of views. Just open an issue or a PR if you need views.
 - There are currently 3 `panic!` in the code because there are 3 code paths in the original code which use `goto` that I couldn't translate properly to Rust. I planned to handle those cases but it

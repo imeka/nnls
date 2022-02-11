@@ -1,3 +1,6 @@
+#![allow(clippy::many_single_char_names, clippy::too_many_arguments)]
+#![deny(unsafe_code)]
+
 use ndarray::{s, Array1, Array2, ArrayViewMut1, Zip};
 use ndarray_stats::QuantileExt;
 
@@ -294,15 +297,15 @@ fn h12(
             let mut i4 = i3;
             let mut sm = c[i2] * *up;
             for i in l1..m {
-                sm = sm + c[i3] * u[i];
-                i3 = i3 + ice;
+                sm += c[i3] * u[i];
+                i3 += ice;
             }
             if sm != 0.0 {
                 sm *= b;
                 c[i2] += sm * *up;
                 for i in l1..m {
                     c[i4] += sm * u[i];
-                    i4 = i4 + ice;
+                    i4 += ice;
                 }
             }
             i2 += icv;

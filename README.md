@@ -1,6 +1,6 @@
 # nnls
 
-This is a Rust version of nnls (Non-Negative Least Square). It's a port from a Fortran90 script used by [scipy.optimize.nnls](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html) and probablys everal others.
+This is a Rust version of nnls (Non-Negative Least Square). It's a port from a [Fortran90 script](https://hesperia.gsfc.nasa.gov/~schmahl/nnls/) used by [scipy.optimize.nnls](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html) and probablys everal others.
 
 ## Why?
 

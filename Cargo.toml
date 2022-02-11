@@ -4,6 +4,13 @@ version = "0.1.0"
 authors = ["Nil Goyette <nil.goyette@imeka.ca>"]
 edition = "2021"
 
+description = "Non-Negative Least Squares (nnls)"
+repository = "https://github.com/imeka/nnls"
+readme = "README.md"
+keywords = ["math", "nnls", "solver"]
+categories = ["mathematics", "science", "algorithms"]
+license = "BSD-2-Clause"
+
 [dev-dependencies]
 criterion = "0.3"
 

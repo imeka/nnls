@@ -1,0 +1,17 @@
+[package]
+name = "nnls"
+version = "0.1.0"
+authors = ["Nil Goyette <nil.goyette@imeka.ca>"]
+edition = "2021"
+
+[dev-dependencies]
+criterion = "0.3"
+
+[dependencies]
+approx = "0.5"
+ndarray = { version="0.15", features = ["approx-0_5"] }
+ndarray-stats = "0.5"
+
+[[bench]]
+name = "nnls"
+harness = false

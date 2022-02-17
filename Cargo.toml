@@ -1,6 +1,6 @@
 [package]
 name = "nnls"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Nil Goyette <nil.goyette@imeka.ca>"]
 edition = "2021"
 

@@ -1,7 +1,7 @@
 #![allow(clippy::many_single_char_names, clippy::too_many_arguments)]
 #![deny(unsafe_code)]
 
-use ndarray::{s, Array1, Array2, ArrayViewMut1, Zip};
+use ndarray::{s, Array1, Array2, ArrayView1, ArrayView2, ArrayViewMut1, Zip};
 use ndarray_stats::QuantileExt;
 
 const FACTOR: f64 = 0.01;
@@ -15,7 +15,7 @@ const FACTOR: f64 = 0.01;
 ///    E is an m2 x n matrix and f is the m2 element data vector.
 ///    In general, G is an m x n constraint matrix, but for his case,
 ///    G is the identity matrix and h is the zero vector.
-pub fn nnls(a: &Array2<f64>, b: &Array1<f64>) -> (Array1<f64>, f64) {
+pub fn nnls(a: ArrayView2<f64>, b: ArrayView1<f64>) -> (Array1<f64>, f64) {
     let (m, n) = a.dim();
     if m == 0 || n == 0 {
         panic!("The dimensions of the problem are bad. Either `a` has zero row or column.");
@@ -33,12 +33,12 @@ struct Nnls {
 }
 
 impl Nnls {
-    pub fn new(a: &Array2<f64>, b: &Array1<f64>) -> Nnls {
+    pub fn new(a: ArrayView2<f64>, b: ArrayView1<f64>) -> Nnls {
         let (m, n) = a.dim();
         let zz = Array1::zeros(m);
         let w = vec![0.0; n];
         let index: Vec<_> = (0..n).collect();
-        Nnls { a: a.clone(), b: b.clone(), zz, w, index }
+        Nnls { a: a.to_owned(), b: b.to_owned(), zz, w, index }
     }
 
     pub fn run(&mut self) -> (Array1<f64>, f64) {

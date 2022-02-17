@@ -31,7 +31,7 @@ fn bench_nnls(c: &mut Criterion) {
     });
 
     c.bench_function("nnls", |bencher| {
-        bencher.iter(|| black_box(nnls(&a, &b)));
+        bencher.iter(|| black_box(nnls(a.view(), b.view())));
     });
 }
 

@@ -7,7 +7,7 @@ use nnls::nnls;
 fn test_nnls_1() {
     let a = arr2(&[[1.0, 0.0], [1.0, 0.0], [0.0, 1.0]]);
     let b = arr1(&[2.0, 1.0, 1.0]);
-    let (x, r_norm) = nnls(&a, &b);
+    let (x, r_norm) = nnls(a.view(), b.view());
     assert_relative_eq!(x, arr1(&[1.5, 1.0]), epsilon = 1e-9);
     assert_relative_eq!(r_norm, 0.7071067811865475, epsilon = 1e-9);
 }
@@ -16,7 +16,7 @@ fn test_nnls_1() {
 fn test_nnls_2() {
     let a = arr2(&[[1.0, 0.5, 0.0], [1.0, 0.6, 0.0], [0.9, 0.5, 0.1], [0.0, 0.0, 1.0]]);
     let b = arr1(&[2.0, 1.0, 1.0, 0.5]);
-    let (x, r_norm) = nnls(&a, &b);
+    let (x, r_norm) = nnls(a.view(), b.view());
     assert_relative_eq!(x, arr1(&[1.37279152, 0.0, 0.47173145]), epsilon = 1e-5);
     assert_relative_eq!(r_norm, 0.7829905522718629, epsilon = 1e-5);
 }
@@ -46,7 +46,7 @@ fn test_mixture_of_exponentials() {
         100.0 * ((-t / 5.0).exp() + (-t / 50.0).exp() + (-t / 500.0).exp()) - 0.5
     });
 
-    let (x, r_norm) = nnls(&a, &b);
+    let (x, r_norm) = nnls(a.view(), b.view());
 
     let mut x_gt = Array1::zeros(19);
     x_gt[2] = 146.18289932114504;

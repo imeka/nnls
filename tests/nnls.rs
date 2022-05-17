@@ -22,6 +22,20 @@ fn test_nnls_2() {
 }
 
 #[test]
+fn test_trap() {
+    let a = arr2(&[
+        [9.6110e-8, 7.9576e-17, 2.7234e-44, 3.4490e-44],
+        [7.9576e-17, 2.0449e-7, 7.4360e-44, 9.4173e-44],
+        [2.7234e-44, 7.4360e-44, 3.1651e-7, 2.9014e-44],
+        [3.4490e-44, 9.4173e-44, 2.9014e-44, 4.3443e-7],
+    ]);
+    let b = arr1(&[-2.4678e-17, -6.7118e-17, 3.6306e-44, 4.5923e-44]);
+    let (x, r_norm) = nnls(a.view(), b.view());
+    assert_relative_eq!(x, arr1(&[0.0, 0.0, 0.0, 0.0]), epsilon = 1e-5);
+    assert_relative_eq!(r_norm, 0.0, epsilon = 1e-5);
+}
+
+#[test]
 fn test_mixture_of_exponentials() {
     let mut t0 = Array1::zeros(19);
     t0[0] = 2.0;

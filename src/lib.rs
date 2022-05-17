@@ -50,15 +50,21 @@ impl Nnls {
         let mut nsetp = 0;
         let mut npp1 = 0;
         let mut up = 0.0;
+        // This goto var is a hack to create a "GOTO self.arg_max_w" like they do in the official
+        // version. I simply skip the first part of the loop to fake a GOTO.
+        let mut goto_iz_max = false;
 
         loop {
-            // Compute components of the dual (negative gradient) vector w
-            for iz in iz1..n {
-                let j = self.index[iz];
-                self.w[j] = self.a.slice(s![npp1.., j]).dot(&self.b.slice(s![npp1..]));
+            if !goto_iz_max {
+                // Compute components of the dual (negative gradient) vector w
+                for iz in iz1..n {
+                    let j = self.index[iz];
+                    self.w[j] = self.a.slice(s![npp1.., j]).dot(&self.b.slice(s![npp1..]));
+                }
             }
 
             // Find largest positive w
+            goto_iz_max = false;
             let (iz, w_max) = self.arg_max_w(iz1);
             if w_max <= 0.0 {
                 break;
@@ -69,7 +75,7 @@ impl Nnls {
             // The sign of w[j] is ok for j to be moved to set P. Begin the transformation and check
             // new diagonal element to avoid near linear dependance
 
-            //let a_save = self.a[(npp1, j)];
+            let a_save = self.a[(npp1, j)];
             h12(1, npp1, npp1 + 1, m, self.a.column_mut(j), &mut up, self.zz.view_mut(), 1, 0, 0);
 
             // In the original implementation `nsetp` is used here instead of `npp1`, but `npp1` is
@@ -80,10 +86,11 @@ impl Nnls {
                 self.a.slice(s![..nsetp, j]).fold(0.0, |acc, &a| acc + a.powi(2)).sqrt()
             };
             if u_norm + self.a[(npp1, j)].abs() * FACTOR - u_norm <= 0.0 {
-                // Project j as a candidate to be moved from set z to set p.
-                //self.a[(npp1, j)] = a_save;
-                //self.w[j] = 0.0;
-                panic!("GoTo iz_max");
+                // Reject j as a candidate to be moved from set z to set p.
+                self.a[(npp1, j)] = a_save;
+                self.w[j] = 0.0;
+                goto_iz_max = true;
+                continue;
             }
 
             // Column j is sufficiently independant. Copy b into zz, update zz and solve for
@@ -92,10 +99,11 @@ impl Nnls {
             h12(2, npp1, npp1 + 1, m, self.a.column_mut(j), &mut up, self.zz.view_mut(), 1, 0, 1);
             let ztest = self.zz[npp1] / self.a[(npp1, j)];
             if ztest <= 0.0 {
-                // Project j as a candidate to be moved from set z to set p.
-                //self.a[(npp1, j)] = a_save;
-                //self.w[j] = 0.0;
-                panic!("GoTo iz_max");
+                // Reject j as a candidate to be moved from set z to set p.
+                self.a[(npp1, j)] = a_save;
+                self.w[j] = 0.0;
+                goto_iz_max = true;
+                continue;
             }
 
             self.b.assign(&self.zz);
@@ -180,7 +188,9 @@ impl Nnls {
                 // that are non-positive will be set to 0.0 and moved from set P to set Z.
 
                 if self.index[0..nsetp].iter().any(|&i| x[i] <= 0.0) {
-                    panic!("GOTO x[i] = 0.0;");
+                    panic!(
+                        "GOTO x[i] = 0.0; Please create an issue on https://github.com/imeka/nnls"
+                    );
                 }
 
                 // Copy b into zz. Then solve again and loop back

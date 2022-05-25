@@ -18,4 +18,4 @@ I decided to port nnls to Rust because:
 
 - This is not idiomatic Rust. I tried cleaning and enhancing the code but it's not always possible.
 - I use [ndarray](https://github.com/rust-ndarray/ndarray). You might prefer something else. I do not plan to change this but you're welcome to discuss it.
-- There are currently 3 `panic!` in the code because there are 3 code paths in the original code which use `goto` that I couldn't translate properly to Rust. I planned to handle those cases but it turns out that they are never called. As I wrote, `nnls` has been extensively used and I couldn't find any dataset that triggers those conditions. If my programs ever panic because of this, it will be repaired quickly.
+- There are currently 1 `panic!` in the code because there are 1 code paths in the original code which use `goto` that I couldn't translate properly to Rust. I planned to handle that case but it turns out that it's never called. As I wrote, `nnls` has been extensively used and I couldn't find any dataset that triggers that condition. If my programs ever panic because of this, it will be repaired quickly.

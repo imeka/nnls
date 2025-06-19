@@ -12,12 +12,12 @@ categories = ["mathematics", "science", "algorithms"]
 license = "BSD-2-Clause"
 
 [dev-dependencies]
-criterion = "0.3"
+criterion = "0.6"
 
 [dependencies]
 approx = "0.5"
-ndarray = { version="0.15", features = ["approx-0_5"] }
-ndarray-stats = "0.5"
+ndarray = { version = "0.16", features = ["approx"] }
+ndarray-stats = "0.6"
 
 [[bench]]
 name = "nnls"

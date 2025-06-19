@@ -1,4 +1,4 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
 use ndarray::{Array1, Array2};
 
 use nnls::nnls;
@@ -31,7 +31,7 @@ fn bench_nnls(c: &mut Criterion) {
     });
 
     c.bench_function("nnls", |bencher| {
-        bencher.iter(|| black_box(nnls(a.view(), b.view())));
+        bencher.iter(|| nnls(a.view(), b.view()));
     });
 }
 

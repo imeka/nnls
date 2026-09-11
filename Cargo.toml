@@ -2,7 +2,7 @@
 name = "nnls"
 version = "0.4.0"
 authors = ["Nil Goyette <nil.goyette@imeka.ca>"]
-edition = "2021"
+edition = "2024"
 
 description = "Non-Negative Least Squares (nnls)"
 repository = "https://github.com/imeka/nnls"

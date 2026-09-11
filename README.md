@@ -11,7 +11,7 @@ I decided to port nnls to Rust because:
 
 ## Advantages
 
-- It has been used several millions of times and it will be used billions of times soon. I work with 3D images and each image I see contains around 1 million voxels. For a specific algorithm, I need to call `nnls` 2 times for each voxel. Several of those images has been tested and compared with the original Fortran version.
+- It has been used several billions of times. I work with 3D images and each image I see contains around 1 million voxels. For a specific algorithm, I need to call `nnls` 2 times for each voxel. Several of those images have been tested and compared with the original Fortran version.
 - There's no `unsafe` and it is forbidden to use any in this crate.
 
 ## Problems

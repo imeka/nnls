@@ -1,8 +1,8 @@
 [package]
 name = "nnls"
-version = "0.4.0"
+version = "0.5.0"
 authors = ["Nil Goyette <nil.goyette@imeka.ca>"]
-edition = "2021"
+edition = "2024"
 
 description = "Non-Negative Least Squares (nnls)"
 repository = "https://github.com/imeka/nnls"
@@ -12,12 +12,12 @@ categories = ["mathematics", "science", "algorithms"]
 license = "BSD-2-Clause"
 
 [dev-dependencies]
-criterion = "0.6"
+criterion = "0.8"
 
 [dependencies]
 approx = "0.5"
-ndarray = { version = "0.16", features = ["approx"] }
-ndarray-stats = "0.6"
+ndarray = { version = "0.17", features = ["approx"] }
+ndarray-stats = "0.7"
 
 [[bench]]
 name = "nnls"
